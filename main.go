@@ -26,7 +26,7 @@ var events = []entry{
 func main() {
 	router := gin.Default()
 	router.GET("/entries", getEntries)
-
+	router.POST("/entries", postEntries)
 	router.Run("localhost:5000")
 }
 
@@ -34,3 +34,24 @@ func main() {
 func getEntries(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, events)
 }
+
+// postEntries adds an entry from JSON received in the request body.
+func postEntries(c *gin.Context) {
+	var newEntry entry
+
+	// Call BindJSON to bind the received JSON to
+	// newEntry.
+	if err := c.BindJSON(&newEntry); err != nil {
+			return
+	}
+
+	// Add the new entry to the slice.
+	events = append(events, newEntry)
+	c.IndentedJSON(http.StatusCreated, newEntry)
+}
+
+// curl http://localhost:5000/entries \
+// --include \
+// --header "Content-Type: application/json" \
+// --request "POST" \
+// --data '{"id": "4","event": "Jog","distance": 2,"time": 15}'
