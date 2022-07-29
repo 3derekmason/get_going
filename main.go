@@ -26,6 +26,7 @@ var events = []entry{
 func main() {
 	router := gin.Default()
 	router.GET("/entries", getEntries)
+	router.GET("/entries/:id", getEntryByID)
 	router.POST("/entries", postEntries)
 	router.Run("localhost:5000")
 }
@@ -50,8 +51,24 @@ func postEntries(c *gin.Context) {
 	c.IndentedJSON(http.StatusCreated, newEntry)
 }
 
-// curl http://localhost:5000/entries \
-// --include \
-// --header "Content-Type: application/json" \
-// --request "POST" \
-// --data '{"id": "4","event": "Jog","distance": 2,"time": 15}'
+			// curl http://localhost:5000/entries \
+			// --include \
+			// --header "Content-Type: application/json" \
+			// --request "POST" \
+			// --data '{"id": "4","event": "Jog","distance": 2,"time": 15}'
+
+// getEntryByID locates the entry whose ID value matches the id
+// parameter sent by the client, then returns that entry as a response.
+func getEntryByID(c *gin.Context) {
+	id := c.Param("id")
+
+	// Loop over the list of entries, looking for
+	// an entry whose ID value matches the parameter.
+	for _, a := range events {
+			if a.ID == id {
+					c.IndentedJSON(http.StatusOK, a)
+					return
+			}
+	}
+	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "entry not found"})
+}
