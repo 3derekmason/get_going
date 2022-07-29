@@ -1,4 +1,4 @@
-# Go_ing
+# Getting 'Go'ing
 
 ## Introducing a few fundamental features of Go.
 

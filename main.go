@@ -48,12 +48,6 @@ func postEntries(c *gin.Context) {
 	c.IndentedJSON(http.StatusCreated, newEntry)
 }
 
-			// curl http://localhost:5000/entries \
-			// --include \
-			// --header "Content-Type: application/json" \
-			// --request "POST" \
-			// --data '{"id": "4","event": "Jog","distance": 2,"time": 15}'
-
 // getEntryByID locates the entry whose ID value matches the id
 // parameter sent by the client, then returns that entry as a response.
 func getEntryByID(c *gin.Context) {
